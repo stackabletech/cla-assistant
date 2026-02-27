@@ -159,10 +159,10 @@ const githubService = {
         }
 
         try {
-            return callGithub(octokit, obj, fun, arg, cacheKey, arg.cacheTime)
+            return await callGithub(octokit, obj, fun, arg, cacheKey, arg.cacheTime)
         } catch (error) {
             logger.info(`${error} - Error on callGithub.${obj}.${fun} with args ${arg}.`)
-            throw new Error(error)
+            throw error
         }
     },
 
