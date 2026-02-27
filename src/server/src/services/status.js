@@ -9,7 +9,7 @@ const logger = require('../services/logger')
 
 const getPR = async (args) => {
     try {
-        return github.callWithGitHubApp({
+        return await github.callWithGitHubApp({
             obj: 'pulls',
             fun: 'get',
             arg: {
@@ -28,7 +28,7 @@ const getPR = async (args) => {
 
 const getStatuses = async (args) => {
     try {
-        return github.callWithGitHubApp({
+        return await github.callWithGitHubApp({
             obj: 'repos',
             fun: 'listCommitStatusesForRef',
             arg: {
@@ -48,7 +48,7 @@ const getStatuses = async (args) => {
 
 const getCombinedStatus = async (args) => {
     try {
-        return github.callWithGitHubApp({
+        return await github.callWithGitHubApp({
             obj: 'repos',
             fun: 'getCombinedStatusForRef',
             arg: {
@@ -69,7 +69,7 @@ const getCombinedStatus = async (args) => {
 const createStatus = async (args, context, description, state, target_url) => {
     try {
         logger.debug(`StatusService-->createStatus for the repo ${args.owner}/${args.repo}/pull/${args.number}`)
-        return github.callWithGitHubApp({
+        return await github.callWithGitHubApp({
             obj: 'repos',
             fun: 'createCommitStatus',
             arg: {
@@ -143,7 +143,7 @@ const updateStatus = async (args) => {
             logger.debug(`StatusService-->updateStatus status remains the same - no need to update ${args.owner}/${args.repo}/pull/${args.number}`)
             return
         }
-        return createStatus(args, status.context, status.description, status.state, status.target_url)
+        return await createStatus(args, status.context, status.description, status.state, status.target_url)
 
     } catch (error) {
         logger.debug(`StatusService-->failed on updateStatus for the repo ${args.owner}/${args.repo}/pull/${args.number}`)
@@ -176,10 +176,10 @@ const updateStatusIfNeeded = async (args, status, allowAbsent) => {
         const claStatus = await findClaStatus(args)
 
         if (!claStatus || allowAbsent) {
-            return createStatus(argsWithSha, status.context, status.description, status.state, status.target_url)
+            return await createStatus(argsWithSha, status.context, status.description, status.state, status.target_url)
         }
         if (!claStatus || claStatus.state !== status.state || claStatus.description !== status.description || claStatus.target_url !== status.target_url) {
-            return createStatus(argsWithSha, status.context, status.description, status.state, status.target_url)
+            return await createStatus(argsWithSha, status.context, status.description, status.state, status.target_url)
         }
     } catch (error) {
         logger.warn(error)
@@ -197,9 +197,9 @@ class StatusService {
                 }
                 if (resp && resp.head) {
                     args.sha = resp.head.sha
-                    return updateStatus(args)
+                    return await updateStatus(args)
                 } else if (args) {
-                    return updateStatus(args)
+                    return await updateStatus(args)
                 }
             } catch (error) {
                 logger.warn(new Error(`${error} with args: ${args}`).stack)
