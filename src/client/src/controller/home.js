@@ -144,8 +144,8 @@ module.controller('HomeCtrl', ['$rootScope', '$scope', '$RPCService', '$RAW', '$
                 }
                 updateNumMigrateRepos(data.value)
                 $scope.claRepos = data.value;
-                // eslint-disable-next-line no-unused-vars
                 $scope.claRepos.forEach(function (claRepo) {
+                    // eslint-disable-next-line no-unused-vars
                     claRepo = mixRepoData(claRepo);
                 });
             });

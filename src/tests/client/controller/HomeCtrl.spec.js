@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /*eslint no-unused-expressions: "off", no-empty-function: "off"*/
-/*global angular, describe, it, beforeEach, afterEach*/
+/*global angular, describe, it, beforeEach, afterEach, sinon*/
 
 describe('Home Controller', function () {
     var scope, httpBackend, createCtrl, homeCtrl, $HUB, $RAW, $RPCService, _timeout;
