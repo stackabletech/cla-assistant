@@ -63,7 +63,7 @@
         "grunt-coveralls": "^2.0.0",
         "grunt-eslint": "^21.0.0",
         "grunt-http": "^2.3.1",
-        "grunt-karma": "^3.0.1",
+        "grunt-karma": "^4.0.2",
         "grunt-mocha-istanbul": "^5.0.2",
         "grunt-mocha-test": "^0.13.3",
         "grunt-sass": "^3.1.0",
